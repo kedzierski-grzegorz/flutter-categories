@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_category/models/category_model.dart';
-import 'package:flutter_category/ui/add_categories/add_category.dart';
 import 'package:flutter_category/ui/categories_route.dart';
 
 class MainView extends StatefulWidget {

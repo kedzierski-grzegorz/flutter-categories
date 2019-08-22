@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_category/blocs/firestore_bloc.dart';
 import 'package:flutter_category/models/category_model.dart';
 import 'package:flutter_category/ui/add_categories/add_category.dart';
 import 'package:flutter_category/ui/backdrop.dart';
@@ -6,9 +7,10 @@ import 'package:flutter_category/ui/backdrop.dart';
 import 'category_item.dart';
 
 class CategoriesRoute extends StatefulWidget {
+  final FirestoreBloc bloc = FirestoreBloc();
   final List<CategoryModel> categories;
 
-  const CategoriesRoute({Key key, this.categories}) : super(key: key);
+  CategoriesRoute({Key key, this.categories}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CategoriesRouteState();
@@ -22,6 +24,7 @@ class _CategoriesRouteState extends State<CategoriesRoute> {
   void initState() {
     super.initState();
     _defaultCategory = widget.categories[0];
+    widget.bloc.test();
   }
 
   void _onCategoryTap(CategoryModel category) {
