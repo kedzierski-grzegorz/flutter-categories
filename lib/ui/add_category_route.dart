@@ -8,7 +8,6 @@ class AddCategoryRoute extends StatefulWidget {
 class _AddCategoryRouteState extends State<AddCategoryRoute> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text('Add category'),
@@ -20,11 +19,9 @@ class _AddCategoryRouteState extends State<AddCategoryRoute> {
             onPressed: () => Navigator.of(context).pop(false)
         ),
       ),
-      body: Material(
-        child: Container(
-          child: Column(
-            children: <Widget>[Text('Add')],
-          ),
+      body: Center(
+        child: Container( 
+          child: Text('Add'), 
         ),
       ),
     );
