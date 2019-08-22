@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_category/models/category_model.dart';
-import 'package:flutter_category/ui/add_category_route.dart';
+import 'package:flutter_category/ui/add_categories/add_category.dart';
 import 'package:flutter_category/ui/categories_route.dart';
 
 class MainView extends StatefulWidget {
@@ -27,20 +27,6 @@ class _MyHomePageState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Categories'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => AddCategoryRoute()
-            )),
-          )
-        ],
-      ),
       body: Center(
         child: CategoriesRoute(
           categories: _categories,

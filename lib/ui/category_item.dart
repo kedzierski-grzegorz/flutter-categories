@@ -3,8 +3,9 @@ import 'package:flutter_category/models/category_model.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel category;
+  final ValueChanged<CategoryModel> onTap;
 
-  const CategoryItem({Key key, this.category}) : super(key: key);
+  const CategoryItem({Key key, this.category, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class CategoryItem extends StatelessWidget {
         child: InkWell(
           splashColor: Theme.of(context).primaryColor,
           highlightColor: Theme.of(context).accentColor,
-          onTap: () => print(category.name),
+          onTap: () => onTap(category),
           child: Row(
             children: <Widget>[
               Container(
