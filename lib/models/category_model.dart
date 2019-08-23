@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
+class CategoryModel {
+  String id;
+  String name;
+  String icon;
 
-class CategoryModel{
-  final String id;
-  final String name;
-  final IconData icon;
-
-  CategoryModel(this.id,this.name, this.icon);
+  CategoryModel(this.id, this.name, this.icon);
 }

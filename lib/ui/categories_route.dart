@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_category/blocs/categories_bloc.dart';
 import 'package:flutter_category/blocs/categories_bloc_provider.dart';
+import 'package:flutter_category/blocs/edit_categories/edit_category_bloc_provider.dart';
 import 'package:flutter_category/models/category_model.dart';
 import 'package:flutter_category/ui/edit_categories/edit_category.dart';
 import 'package:flutter_category/ui/backdrop.dart';
@@ -32,7 +33,7 @@ class _CategoriesRouteState extends State<CategoriesRoute> {
   @override
   void initState() {
     super.initState();
-    _defaultCategory = CategoryModel('', 'Test', Icons.chat);
+    _defaultCategory = CategoryModel('', 'Test', 'chat');
   }
 
   void _onCategoryTap(CategoryModel category) {
@@ -46,13 +47,15 @@ class _CategoriesRouteState extends State<CategoriesRoute> {
     return Backdrop(
       currentCategory:
           _currentCategory == null ? _defaultCategory : _currentCategory,
-      frontPanel: _currentCategory == null
-          ? EditCategory(
-              category: _defaultCategory,
-            )
-          : EditCategory(
-              category: _currentCategory,
-            ),
+      frontPanel: EditCategoryBlocProvider(
+        child: _currentCategory == null
+            ? EditCategory(
+                category: _defaultCategory,
+              )
+            : EditCategory(
+                category: _currentCategory,
+              ),
+      ),
       backPanel: Padding(
         padding: const EdgeInsets.only(bottom: 40.0),
         child: _categories.length > 0

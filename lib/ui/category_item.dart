@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_category/models/category_model.dart';
+import 'package:flutter_category/models/my_icons.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel category;
@@ -22,7 +23,7 @@ class CategoryItem extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Icon(
-                    category.icon,
+                    MyIcons.icons[category.icon],
                     color: Colors.white,
                     size: 40.0,
                   ),

@@ -5,4 +5,6 @@ class Repository{
   final _firestoreProvider = FirestoreProvider();
 
   Stream<List<CategoryModel>> getAllCategories() => _firestoreProvider.getAllCategories();
+  Future<void> addCategory(CategoryModel category) => _firestoreProvider.addCategory(category);
+  Future<void> updateCategory(CategoryModel category) => _firestoreProvider.updateCategory(category);
 }
