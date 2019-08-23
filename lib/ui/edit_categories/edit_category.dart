@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_category/models/category_model.dart';
 
-class AddCategory extends StatefulWidget {
+class EditCategory extends StatefulWidget {
   final CategoryModel category;
 
-  const AddCategory({Key key, this.category}) : super(key: key);
+  const EditCategory({Key key, this.category}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _AddCategoryState();
+  State<StatefulWidget> createState() => _EditCategoryState();
 }
 
-class _AddCategoryState extends State<AddCategory> {
+class _EditCategoryState extends State<EditCategory> {
   String _categoryName = '';
 
   @override
@@ -51,7 +51,7 @@ class _AddCategoryState extends State<AddCategory> {
                       splashColor: Colors.white12,
                       onPressed: () {},
                       child: Text(
-                        'Add',
+                        'Save',
                         style: TextStyle(color: Colors.white, fontSize: 30),
                       ),
                     ),
