@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_category/blocs/add_category/add_category_bloc_provider.dart';
 import 'package:flutter_category/events/back_button_event.dart';
 import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/models/category_model.dart';
@@ -45,7 +46,8 @@ class _BackdropState extends State<Backdrop>
       vsync: this,
     );
 
-    _backButtonEvent = EventBusInstance.eventBus.on<BackButtonEvent>().listen((onData) {
+    _backButtonEvent =
+        EventBusInstance.eventBus.on<BackButtonEvent>().listen((onData) {
       _hideBackdropPanel();
     });
   }
@@ -166,11 +168,10 @@ class _BackdropState extends State<Backdrop>
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AddCategory()
-                )
-              );
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AddCategoryBlocProvider(
+                        child: AddCategory(),
+                      )));
             },
           )
         ],
