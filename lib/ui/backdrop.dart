@@ -80,8 +80,7 @@ class _BackdropState extends State<Backdrop>
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
-    if (_controller.isAnimating ||
-        _controller.status == AnimationStatus.completed) return;
+    if (_controller.isAnimating) return;
     _controller.value -= details.primaryDelta / _backdropHeight;
   }
 
@@ -111,7 +110,7 @@ class _BackdropState extends State<Backdrop>
             begin: RelativeRect.fromLTRB(
                 0.0, panelTop, 0.0, panelTop - panelSize.height),
             end: RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0))
-        .animate(_controller.view);
+        .animate(_controller);
 
     return Container(
       key: _backdropkKey,
