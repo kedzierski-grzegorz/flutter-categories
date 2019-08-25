@@ -1,6 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_category/events/back_button_event.dart';
+import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/models/category_model.dart';
 import 'dart:math';
+
+import 'package:flutter_category/ui/add_category/add_category.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -28,6 +34,7 @@ class _BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
   final GlobalKey _backdropkKey = GlobalKey(debugLabel: 'Backdrop');
   AnimationController _controller;
+  StreamSubscription _backButtonEvent;
 
   @override
   void initState() {
@@ -37,6 +44,10 @@ class _BackdropState extends State<Backdrop>
       value: 1.0,
       vsync: this,
     );
+
+    _backButtonEvent = EventBusInstance.eventBus.on<BackButtonEvent>().listen((onData) {
+      _hideBackdropPanel();
+    });
   }
 
   @override
@@ -59,6 +70,7 @@ class _BackdropState extends State<Backdrop>
   @override
   void dispose() {
     _controller.dispose();
+    _backButtonEvent.cancel();
     super.dispose();
   }
 
@@ -72,6 +84,11 @@ class _BackdropState extends State<Backdrop>
     FocusScope.of(context).requestFocus(FocusNode());
     _controller.fling(
         velocity: _backdropPanelVisible ? -_kFlingVelocity : _kFlingVelocity);
+  }
+
+  void _hideBackdropPanel() {
+    FocusScope.of(context).requestFocus(FocusNode());
+    _controller.fling(velocity: -_kFlingVelocity);
   }
 
   double get _backdropHeight {
@@ -129,9 +146,7 @@ class _BackdropState extends State<Backdrop>
                 child: Text(
                   widget.currentCategory.name,
                   style: TextStyle(
-                    fontSize: 26.0,
-                    color: Theme.of(context).primaryColor
-                  ),
+                      fontSize: 26.0, color: Theme.of(context).primaryColor),
                 ),
               ),
               child: widget.frontPanel,
@@ -147,6 +162,18 @@ class _BackdropState extends State<Backdrop>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AddCategory()
+                )
+              );
+            },
+          )
+        ],
         elevation: 0.0,
         leading: IconButton(
           icon: AnimatedIcon(
