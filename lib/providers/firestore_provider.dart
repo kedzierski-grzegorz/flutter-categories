@@ -8,6 +8,7 @@ class FirestoreProvider {
   Stream<List<CategoryModel>> getAllCategories() {
     return _firestore
         .collection(_categoriesCollectionName)
+        .orderBy('name')
         .snapshots()
         .map<List<CategoryModel>>((data) {
       List<CategoryModel> list = [];
@@ -36,16 +37,25 @@ class FirestoreProvider {
   }
 
   Future<bool> existCategoryWithName(String name) async {
+    var exists = false;
     await _firestore
         .collection(_categoriesCollectionName)
         .where("name", isEqualTo: name)
         .getDocuments()
         .then((data) {
-          if(data.documents.length == 0){
-            return false;
-          } else {
-            return true;
-          }
-        });
+      if (data.documents.length == 0) {
+        exists = false;
+      } else {
+        exists = true;
+      }
+    });
+    return exists;
+  }
+
+  Future<void> removeCategory(String id) async {
+    return _firestore
+        .collection(_categoriesCollectionName)
+        .document(id)
+        .delete();
   }
 }

@@ -8,4 +8,5 @@ class Repository{
   Future<void> addCategory(CategoryModel category) => _firestoreProvider.addCategory(category);
   Future<void> updateCategory(CategoryModel category) => _firestoreProvider.updateCategory(category);
   Future<bool> existCategoryWithName(String name) async => await _firestoreProvider.existCategoryWithName(name);
+  Future<void> removeCategory(String id) => _firestoreProvider.removeCategory(id);
 }

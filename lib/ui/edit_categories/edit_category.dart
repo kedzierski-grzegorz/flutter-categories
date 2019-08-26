@@ -1,12 +1,15 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_category/blocs/edit_categories/edit_category_bloc.dart';
 import 'package:flutter_category/blocs/edit_categories/edit_category_bloc_provider.dart';
+import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/models/category_model.dart';
 
 class EditCategory extends StatefulWidget {
   final CategoryModel category;
+  final Function hidePanel;
 
-  EditCategory({Key key, this.category}) : super(key: key);
+  EditCategory({Key key, this.category, this.hidePanel}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _EditCategoryState();
@@ -48,7 +51,8 @@ class _EditCategoryState extends State<EditCategory> {
         child: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextField(
                 controller: _categoryNameController,

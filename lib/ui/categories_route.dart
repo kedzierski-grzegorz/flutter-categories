@@ -36,6 +36,39 @@ class _CategoriesRouteState extends State<CategoriesRoute> {
     _defaultCategory = CategoryModel('', 'Test', 'chat');
   }
 
+  Future _showDialogRemove(BuildContext context, CategoryModel category) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          content: Text('Are you sure to remove ${category.name}'),
+          title: Text('Confirm'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () async{
+                await _removeCategory(category.id);
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future _removeCategory(String id) async{
+    _bloc.removeCategory(id).then((data) {
+      print('Deleted');
+    });
+  }
+
   void _onCategoryTap(CategoryModel category) {
     setState(() {
       _currentCategory = category;
@@ -63,9 +96,15 @@ class _CategoriesRouteState extends State<CategoriesRoute> {
                 ? ListView.builder(
                     itemCount: _categories.length,
                     itemBuilder: (BuildContext ctx, int index) {
-                      return CategoryItem(
-                        category: _categories[index],
-                        onTap: _onCategoryTap,
+                      return Dismissible(
+                        key: Key(_categories[index].id),
+                        child: CategoryItem(
+                          category: _categories[index],
+                          onTap: _onCategoryTap,
+                        ),
+                        onDismissed: (direction) {
+                          _showDialogRemove(context,_categories[index]);
+                        },
                       );
                     },
                   )

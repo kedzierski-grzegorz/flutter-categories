@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_category/blocs/add_category/add_category_bloc.dart';
 import 'package:flutter_category/blocs/add_category/add_category_bloc_provider.dart';
+import 'package:flutter_category/models/category_model.dart';
 import 'package:flutter_category/models/my_icons.dart';
 
 class AddCategory extends StatefulWidget {
@@ -13,12 +14,12 @@ class _AddCategoryState extends State<AddCategory> {
   String _selectedIcon;
   List<String> _icons;
   TextEditingController _categoryNameController = TextEditingController();
+  bool _isInvalidCategoryNameAsync = false;
+  Function _submitFunc;
 
   @override
   void initState() {
     super.initState();
-
-    _bloc = AddCategoryBlocProvider.of(context);
 
     _icons = [];
     MyIcons.icons.forEach((key, icon) {
@@ -26,18 +27,60 @@ class _AddCategoryState extends State<AddCategory> {
     });
   }
 
-  String _validateCategoryName(String name) {
-    _bloc.existCategoryWithName(name).then((data) => {
-      if(data == true){
-     //   return 'Please enter an other name';
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = AddCategoryBlocProvider.of(context);
+    _categoryNameController.addListener(_checkExistingCategoryName);
+  }
+
+  void _checkExistingCategoryName() {
+    _bloc.existCategoryWithName(_categoryNameController.text).then((data) {
+      if (data == true) {
+        _isInvalidCategoryNameAsync = true;
+        _validateForm();
+      } else {
+        _isInvalidCategoryNameAsync = false;
+        _validateForm();
       }
     });
 
+    _validateForm();
+  }
+
+  String _validateCategoryName(String name) {
+    if (_isInvalidCategoryNameAsync) {
+      return 'Please enter an other name';
+    }
+
     if (name.isEmpty) {
       return 'Please enter a category name';
-    } else {
-      return null;
     }
+
+    return null;
+  }
+
+  void _validateForm() {
+    if (_categoryNameController.text.isEmpty ||
+        _isInvalidCategoryNameAsync ||
+        _selectedIcon == null) {
+      setState(() {
+        _submitFunc = null;
+      });
+    } else {
+      setState(() {
+        _submitFunc = _submit;
+      });
+    }
+  }
+
+  void _submit() {
+    _bloc
+        .addCategory(
+            CategoryModel(null, _categoryNameController.text, _selectedIcon))
+        .then((data) {
+      Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -45,13 +88,30 @@ class _AddCategoryState extends State<AddCategory> {
     return Material(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Add category'),
+          title: Row(
+            children: <Widget>[
+              Text('Add category'),
+              SizedBox(
+                width: 10.0,
+              ),
+              Hero(
+                tag: 'AddHero',
+                child: Icon(Icons.add),
+              ),
+            ],
+          ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.save),
+              onPressed: _submitFunc,
+            )
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(5.0),
@@ -83,6 +143,7 @@ class _AddCategoryState extends State<AddCategory> {
                   value: _selectedIcon,
                   onChanged: (String newIcon) => setState(() {
                     _selectedIcon = newIcon;
+                    _validateForm();
                   }),
                   items: _icons.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -107,6 +168,18 @@ class _AddCategoryState extends State<AddCategory> {
                     );
                   }).toList(),
                 ),
+                _selectedIcon == null
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Text(
+                          'Please enter an other name',
+                          style:
+                              TextStyle(color: Colors.red[700], fontSize: 12.0),
+                        ),
+                      )
+                    : SizedBox(
+                        height: 11.0,
+                      )
               ],
             ),
           ),

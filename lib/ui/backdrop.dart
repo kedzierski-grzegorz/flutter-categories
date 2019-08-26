@@ -165,14 +165,17 @@ class _BackdropState extends State<Backdrop>
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddCategoryBlocProvider(
-                        child: AddCategory(),
-                      )));
-            },
+          Hero(
+            tag: "AddHero",
+            child: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddCategoryBlocProvider(
+                          child: AddCategory(),
+                        )));
+              },
+            ),
           )
         ],
         elevation: 0.0,

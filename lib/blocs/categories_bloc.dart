@@ -8,5 +8,5 @@ class CategoriesBloc {
     return _repository.getAllCategories();
   }
 
-
+  Future<void> removeCategory(id) => _repository.removeCategory(id);
 }
