@@ -8,6 +8,8 @@ import 'package:flutter_category/models/category_model.dart';
 import 'dart:math';
 
 import 'package:flutter_category/ui/add_category/add_category.dart';
+import 'package:flutter_category/ui/images_route/image_route.dart';
+import 'package:flutter_category/ui/main_drawer.dart';
 
 const double _kFlingVelocity = 2.0;
 
@@ -162,6 +164,7 @@ class _BackdropState extends State<Backdrop>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MainDrawer(),
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         actions: <Widget>[
