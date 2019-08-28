@@ -8,7 +8,6 @@ import 'package:flutter_category/models/category_model.dart';
 import 'dart:math';
 
 import 'package:flutter_category/ui/add_category/add_category.dart';
-import 'package:flutter_category/ui/images_route/image_route.dart';
 import 'package:flutter_category/ui/main_drawer.dart';
 
 const double _kFlingVelocity = 2.0;
@@ -195,8 +194,11 @@ class _BackdropState extends State<Backdrop>
           backTitle: widget.backTitle,
         ),
       ),
-      body: LayoutBuilder(
-        builder: _buildStack,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        child: LayoutBuilder(
+          builder: _buildStack,
+        ),
       ),
       resizeToAvoidBottomPadding: false,
     );

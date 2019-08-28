@@ -1,8 +1,6 @@
-import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_category/blocs/edit_categories/edit_category_bloc.dart';
 import 'package:flutter_category/blocs/edit_categories/edit_category_bloc_provider.dart';
-import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/models/category_model.dart';
 
 class EditCategory extends StatefulWidget {

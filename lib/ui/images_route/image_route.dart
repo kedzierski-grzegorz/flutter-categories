@@ -11,6 +11,9 @@ class _ImageRouteState extends State<ImageRoute> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: MainDrawer(),
+      appBar: AppBar(
+        title: Text('test'),
+      ),
       body: Container(
         child: Text('Image route'),
       ),

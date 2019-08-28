@@ -6,7 +6,6 @@ import 'images_route/image_route.dart';
 class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,

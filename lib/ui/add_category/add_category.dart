@@ -85,102 +85,110 @@ class _AddCategoryState extends State<AddCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            children: <Widget>[
-              Text('Add category'),
-              SizedBox(
-                width: 10.0,
-              ),
-              Hero(
-                tag: 'AddHero',
-                child: Icon(Icons.add),
-              ),
-            ],
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.save),
-              onPressed: _submitFunc,
-            )
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: <Widget>[
+            Text('Add category'),
+            SizedBox(
+              width: 10.0,
+            ),
+            Hero(
+              tag: 'AddHero',
+              child: Icon(Icons.add),
+            ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: _categoryNameController,
-                  style: TextStyle(fontSize: 28),
-                  decoration: InputDecoration(
-                    labelText: "Category name",
-                    border: OutlineInputBorder(),
-                    errorText:
-                        _validateCategoryName(_categoryNameController.text),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: _submitFunc,
+          )
+        ],
+      ),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                DropdownButton<String>(
-                  isExpanded: true,
-                  hint: Text('Select an icon'),
-                  style: TextStyle(fontSize: 28, color: Colors.black),
-                  value: _selectedIcon,
-                  onChanged: (String newIcon) => setState(() {
-                    _selectedIcon = newIcon;
-                    _validateForm();
-                  }),
-                  items: _icons.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(MyIcons.icons[value]),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              value,
-                              style: TextStyle(
-                                fontSize: 28,
+                  TextFormField(
+                    controller: _categoryNameController,
+                    style: TextStyle(fontSize: 28),
+                    decoration: InputDecoration(
+                      labelText: "Category name",
+                      border: OutlineInputBorder(),
+                      errorText:
+                          _validateCategoryName(_categoryNameController.text),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  DropdownButton<String>(
+                    key: Key('Dropdown'),
+                    isExpanded: true,
+                    hint: Text('Select an icon'),
+                    style: TextStyle(fontSize: 28, color: Colors.black),
+                    value: _selectedIcon,
+                    onChanged: (String newIcon) => setState(() {
+                      _selectedIcon = newIcon;
+                      _validateForm();
+                    }),
+                    items: _icons.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        key: Key('Item' + value),
+                        value: value,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(MyIcons.icons[value]),
+                              SizedBox(
+                                width: 10,
                               ),
-                            )
-                          ],
+                              Text(
+                                value,
+                                style: TextStyle(
+                                  fontSize: 28,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                _selectedIcon == null
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 12.0),
-                        child: Text(
-                          'Please enter an other name',
-                          style:
-                              TextStyle(color: Colors.red[700], fontSize: 12.0),
-                        ),
-                      )
-                    : SizedBox(
-                        height: 11.0,
-                      )
-              ],
+                      );
+                    }).toList(),
+                  ),
+                  _selectedIcon == null
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Text(
+                            'Please enter an other name',
+                            style: TextStyle(
+                                color: Colors.red[700], fontSize: 12.0),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 11.0,
+                        )
+                ],
+              ),
             ),
           ),
         ),
