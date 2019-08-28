@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_category/ui/route_animations/drawer_route.dart';
 
 import 'images_route/image_route.dart';
 
@@ -29,8 +30,8 @@ class MainDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               if (context.ancestorWidgetOfExactType(ImageRoute) == null) {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => ImageRoute(),
+                  DrawerRoute(
+                    route: ImageRoute(),
                   ),
                 );
               }
