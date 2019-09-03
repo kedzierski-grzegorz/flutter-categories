@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_category/blocs/bloc_provider.dart';
+import 'package:flutter_category/blocs/image_route/image_bloc.dart';
 import 'package:flutter_category/ui/main_drawer.dart';
 
 class ImageRoute extends StatefulWidget {
@@ -7,6 +9,20 @@ class ImageRoute extends StatefulWidget {
 }
 
 class _ImageRouteState extends State<ImageRoute> {
+  ImageBloc _bloc;
+  List<dynamic> _images = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = Provider.of<ImageBloc>(context);
+    _bloc.getAllImages().then((data) {
+      setState(() {
+        _images = data;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +31,45 @@ class _ImageRouteState extends State<ImageRoute> {
         title: Text('test'),
       ),
       body: Container(
-        child: Text('Image route'),
+        child: Center(
+          child: _images.length > 0
+              ? GridView.builder(
+                  itemCount: _images.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.15,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Image.network(
+                              _images[index],
+                              width: 120,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                (index + 1).toString(),
+                                textAlign: TextAlign.left,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : Text('No images'),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }
