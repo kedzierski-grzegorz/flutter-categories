@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_category/blocs/categories_bloc_provider.dart';
+import 'package:flutter_category/blocs/bloc_provider.dart';
+import 'package:flutter_category/blocs/categories_bloc.dart';
 import 'package:flutter_category/events/back_button_event.dart';
 import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/ui/categories_route.dart';
@@ -27,7 +28,8 @@ class _MyHomePageState extends State<MainView> {
       onWillPop: _backButtonPress,
       child: Scaffold(
         body: Center(
-          child: CategoriesBlocProvider(
+          child: BlocProvider<CategoriesBloc>(
+            builder: (_, bloc) => bloc ?? CategoriesBloc(),
             child: CategoriesRoute(),
           ),
         ),

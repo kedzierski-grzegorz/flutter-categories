@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_category/blocs/add_category/add_category_bloc.dart';
-import 'package:flutter_category/blocs/add_category/add_category_bloc_provider.dart';
+import 'package:flutter_category/blocs/bloc_provider.dart';
 import 'package:flutter_category/models/category_model.dart';
 import 'package:flutter_category/models/my_icons.dart';
 
@@ -30,7 +30,7 @@ class _AddCategoryState extends State<AddCategory> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _bloc = AddCategoryBlocProvider.of(context);
+    _bloc = Provider.of<AddCategoryBloc>(context);
     _categoryNameController.addListener(_checkExistingCategoryName);
   }
 

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_category/blocs/add_category/add_category_bloc_provider.dart';
+import 'package:flutter_category/blocs/add_category/add_category_bloc.dart';
+import 'package:flutter_category/blocs/bloc_provider.dart';
 import 'package:flutter_category/events/back_button_event.dart';
+import 'package:flutter_category/events/category_edited_event.dart';
 import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/models/category_model.dart';
 import 'dart:math';
@@ -49,6 +51,10 @@ class _BackdropState extends State<Backdrop>
 
     _backButtonEvent =
         EventBusInstance.eventBus.on<BackButtonEvent>().listen((onData) {
+      _hideBackdropPanel();
+    });
+
+    EventBusInstance.eventBus.on<CategoryEditedEvent>().listen((o) {
       _hideBackdropPanel();
     });
   }
@@ -173,7 +179,8 @@ class _BackdropState extends State<Backdrop>
               icon: Icon(Icons.add),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AddCategoryBlocProvider(
+                    builder: (context) => BlocProvider<AddCategoryBloc>(
+                          builder: (_, bloc) => bloc ?? AddCategoryBloc(),
                           child: AddCategory(),
                         )));
               },

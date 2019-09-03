@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_category/blocs/bloc_provider.dart';
 import 'package:flutter_category/blocs/categories_bloc.dart';
-import 'package:flutter_category/blocs/categories_bloc_provider.dart';
-import 'package:flutter_category/blocs/edit_categories/edit_category_bloc_provider.dart';
+import 'package:flutter_category/blocs/edit_categories/edit_category_bloc.dart';
+import 'package:flutter_category/events/category_edited_event.dart';
+import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/models/category_model.dart';
 import 'package:flutter_category/ui/edit_categories/edit_category.dart';
 import 'package:flutter_category/ui/backdrop.dart';
@@ -23,7 +25,7 @@ class _CategoriesRouteState extends State<CategoriesRoute> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _bloc = CategoriesBlocProvider.of(context);
+    _bloc = Provider.of<CategoriesBloc>(context);
     _bloc.getAllCategories().listen((data) => setState(() {
           _categories = data;
           _defaultCategory = data[0];
@@ -80,7 +82,8 @@ class _CategoriesRouteState extends State<CategoriesRoute> {
     return Backdrop(
       currentCategory:
           _currentCategory == null ? _defaultCategory : _currentCategory,
-      frontPanel: EditCategoryBlocProvider(
+      frontPanel: BlocProvider<EditCategoryBloc>(
+        builder: (_, bloc) => bloc ?? EditCategoryBloc(),
         child: _currentCategory == null
             ? EditCategory(
                 category: _defaultCategory,

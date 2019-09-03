@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_category/blocs/bloc_provider.dart';
+import 'package:flutter_category/blocs/categories_bloc.dart';
 import 'package:flutter_category/blocs/edit_categories/edit_category_bloc.dart';
-import 'package:flutter_category/blocs/edit_categories/edit_category_bloc_provider.dart';
+import 'package:flutter_category/events/category_edited_event.dart';
+import 'package:flutter_category/events/event_bus_instance.dart';
 import 'package:flutter_category/models/category_model.dart';
 
 class EditCategory extends StatefulWidget {
@@ -15,12 +18,14 @@ class EditCategory extends StatefulWidget {
 
 class _EditCategoryState extends State<EditCategory> {
   EditCategoryBloc _bloc;
+  CategoriesBloc _categoriesBloc;
   TextEditingController _categoryNameController = TextEditingController();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _bloc = EditCategoryBlocProvider.of(context);
+    _bloc = Provider.of<EditCategoryBloc>(context);
+    _categoriesBloc = Provider.of<CategoriesBloc>(context);
     setState(() {
       if (widget.category != null) {
         _categoryNameController = TextEditingController.fromValue(
@@ -33,7 +38,9 @@ class _EditCategoryState extends State<EditCategory> {
 
   void _saveCategory() async {
     widget.category.name = _categoryNameController.text;
-    await _bloc.updateCategory(widget.category).then((t) => print('UPDATED'));
+    await _bloc.updateCategory(widget.category).then((t) {
+      EventBusInstance.eventBus.fire(CategoryEditedEvent());
+    });
   }
 
   @override

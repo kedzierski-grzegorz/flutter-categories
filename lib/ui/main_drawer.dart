@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_category/blocs/bloc_provider.dart';
+import 'package:flutter_category/blocs/image_route/image_bloc.dart';
 import 'package:flutter_category/ui/route_animations/drawer_route.dart';
 
 import 'images_route/image_route.dart';
@@ -30,7 +32,10 @@ class MainDrawer extends StatelessWidget {
               if (context.ancestorWidgetOfExactType(ImageRoute) == null) {
                 Navigator.of(context).push(
                   DrawerRoute(
-                    route: ImageRoute(),
+                    route: BlocProvider<ImageBloc>(
+                      builder: (_, bloc) => bloc ?? ImageBloc(),
+                      child: ImageRoute(),
+                    ),
                   ),
                 );
               }
