@@ -27,6 +27,7 @@ dependencies:
   cloud_firestore: ^0.12.7+1
   firebase_storage: ^3.0.6
   event_bus: ^1.1.0
+  image_picker_modern: ^0.4.12+3
 
 dev_dependencies:
   flutter_test:

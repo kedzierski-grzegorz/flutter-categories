@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_category/blocs/bloc_provider.dart';
 import 'package:flutter_category/blocs/image_route/image_bloc.dart';
 import 'package:flutter_category/ui/main_drawer.dart';
+import 'package:image_picker_modern/image_picker_modern.dart';
 
 class ImageRoute extends StatefulWidget {
   @override
@@ -68,7 +69,9 @@ class _ImageRouteState extends State<ImageRoute> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          var image = await ImagePicker.pickImage(source: ImageSource.camera);
+        },
         child: Icon(Icons.add),
       ),
     );
